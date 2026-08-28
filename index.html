@@ -100,19 +100,19 @@
         href: './presentations/servlet/' },
     ];
 
-    // score: число балів; 'admission' — допуск без балів
+    // score: число балів
     const LABS = [
-      { id: 'lab-00', num: '0',  title: 'Синтаксис Java. Налаштування середовища', score: 'admission' },
+      { id: 'lab-00', num: '0',  title: 'Синтаксис Java. Налаштування середовища', score: 4 },
       { id: 'lab-01', num: '1',  title: 'Основи Java та модифікатори доступу', score: 9 },
       { id: 'lab-02', num: '2',  title: 'Enum, Record та Switch-case', score: 7 },
       { id: 'lab-03', num: '3',  title: 'Обробка виключень та юніт-тестування', score: 10 },
-      { id: 'lab-04', num: '4',  title: 'Generics та Collections', score: 12 },
+      { id: 'lab-04', num: '4',  title: 'Generics та Collections', score: 11 },
       { id: 'lab-05', num: '5',  title: 'Сортування. Comparator / Comparable', score: 9 },
       { id: 'lab-06', num: '6',  title: 'Stream API', score: 10 },
-      { id: 'lab-07', num: '7',  title: 'Серіалізація та робота з файлами', score: 11 },
+      { id: 'lab-07', num: '7',  title: 'Серіалізація та робота з файлами', score: 10 },
       { id: 'lab-08', num: '8',  title: 'Валідація даних', score: 10 },
-      { id: 'lab-09', num: '9',  title: 'Багатопоточність та Concurrency', score: 10 },
-      { id: 'lab-10', num: '10', title: 'Servlets та REST API', score: 12 },
+      { id: 'lab-09', num: '9',  title: 'Багатопоточність та Concurrency', score: 9 },
+      { id: 'lab-10', num: '10', title: 'Servlets та REST API', score: 11 },
     ];
 
     // ================================================================
@@ -156,19 +156,13 @@
 
       grid.innerHTML = LABS.map((lab, i) => {
         const delay = `animation-delay:${(i + 1) * 0.02}s`;
-        const isAdmission = lab.score === 'admission';
-        const badge = isAdmission
-          ? '<div class="card__score card__score--pass" title="Допуск до наступних робіт">✓</div>'
-          : `<div class="card__score" title="${lab.score} балів">${lab.score}</div>`;
-
         return `
           <a class="card" href="${LABS_REPO}/blob/main/${lab.id}/README.md"
              target="_blank" rel="noopener" style="${delay}">
-            ${badge}
+            <div class="card__score" title="${lab.score} балів">${lab.score}</div>
             <div class="card__num">${lab.num}</div>
             <div class="card__body">
               <div class="card__title">${lab.title}</div>
-              ${isAdmission ? '<div class="card__tag">Допуск</div>' : ''}
             </div>
           </a>`;
       }).join('');
