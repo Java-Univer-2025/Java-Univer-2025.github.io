@@ -319,10 +319,6 @@ a.card:hover .card__title {
   right: -0.5rem;
 }
 
-.card__score--pass {
-  background: var(--accent-green);
-  font-size: 0.75rem;
-}
 
 /* ===== THEME TOGGLE ===== */
 .theme-toggle {
