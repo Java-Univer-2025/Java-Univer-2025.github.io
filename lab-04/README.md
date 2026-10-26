@@ -43,7 +43,7 @@ public interface IdentityExtractor<T> {
 **2. Клас `GenericRepository<T>`** з таким мінімумом:
 
 ```java
-public GenericRepository(String name, IdentityExtractor<T> extractor)
+public GenericRepository(Class<T> type, IdentityExtractor<T> extractor)
 
 public void            add(T item)
 public boolean         addIfAbsent(T item)
@@ -60,7 +60,7 @@ public int             size()
 - `findByIdentity` повертає `Optional<T>`, а не `null`;
 - `findAll()` повертає такий список, яким зовнішній код не може зіпсувати стан репозиторію.
 
-**3. Контракт дублікатів.** `add` з identity, яка вже є, кидає власне **unchecked** `DuplicateIdentityException` (наслідує `IllegalStateException`); у повідомленні — identity й назва репозиторію. `addIfAbsent` на тому самому обʼєкті нічого не кидає й повертає `false`.
+**3. Контракт дублікатів.** `add` з identity, яка вже є, кидає власне **unchecked** `DuplicateIdentityException` (наслідує `IllegalStateException`); у повідомленні — identity й назва типу (type.getSimpleName()). `addIfAbsent` на тому самому обʼєкті нічого не кидає й повертає `false`.
 
 Унікальність забезпечує репозиторій, а не сутність: конструктори та компактні конструктори з ЛР1–ЛР2 про дублікати нічого не знають і не дізнаються.
 
