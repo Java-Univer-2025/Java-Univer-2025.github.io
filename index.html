@@ -64,6 +64,7 @@
     const LABS_REPO = 'https://github.com/Java-Univer-2025/Java-Univer-2025.github.io';
 
     // status: 'ready' | 'draft' | 'self-study'
+    // code: optional link to the lecture's demo code, shown as a separate link on the card
     const LECTURES = [
       { num: '1',  title: 'Вступ. Класи та об\'єкти',
         desc: 'Класи та об\'єкти • Створення об\'єктів • Пакети • Наслідування • Модифікатори доступу',
@@ -97,7 +98,8 @@
 
       { num: '9',  title: 'Анотації та валідація',
         desc: 'Анотації • Валідація • Hibernate Validator',
-        href: './presentations/validation/' },
+        href: './presentations/validation/',
+        code: 'https://github.com/Java-Univer-2025/code-2026/tree/annotations' },
 
       { num: '10', title: 'Багатопоточність та Concurrency',
         desc: 'Threads • ExecutorService • CompletableFuture',
@@ -125,6 +127,8 @@
 
     // ================================================================
 
+    const CODE_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>';
+
     (function renderLectures() {
       const grid = document.getElementById('lectures-grid');
 
@@ -145,14 +149,35 @@
 
         const external = /^https?:/.test(l.href);
         const selfStudy = l.status === 'self-study';
+        const target = external ? 'target="_blank" rel="noopener"' : '';
+        const tag = selfStudy ? '<div class="card__tag">★ Самостійне вивчення</div>' : '';
+
+        // A link can't be nested inside another link, so a card with a code link
+        // is a <div>: the main link is stretched over the whole card (see .card__link),
+        // and the code link sits on top of it
+        if (l.code) {
+          return `
+            <div class="card card--has-code${selfStudy ? ' card--self-study' : ''}" style="${delay}">
+              <a class="card__link" href="${l.href}" aria-label="${l.title}" ${target}></a>
+              <div class="card__num">${l.num}</div>
+              <div class="card__body">
+                <div class="card__title">${l.title}</div>
+                ${tag}
+                ${desc}
+                <a class="card__code" href="${l.code}" target="_blank" rel="noopener">
+                  ${CODE_ICON} Код лекції
+                </a>
+              </div>
+            </div>`;
+        }
 
         return `
           <a class="card${selfStudy ? ' card--self-study' : ''}" href="${l.href}"
-             ${external ? 'target="_blank" rel="noopener"' : ''} style="${delay}">
+             ${target} style="${delay}">
             <div class="card__num">${l.num}</div>
             <div class="card__body">
               <div class="card__title">${l.title}</div>
-              ${selfStudy ? '<div class="card__tag">★ Самостійне вивчення</div>' : ''}
+              ${tag}
               ${desc}
             </div>
           </a>`;
